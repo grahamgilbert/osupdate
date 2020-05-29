@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 )
 
@@ -40,7 +41,8 @@ func checkForUnsupportedPlatform() error {
 func downloadUpdates() error {
 	cmd := exec.Command("/usr/sbin/softwareupdate", "-dla")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("wuauclt /detectnow")
+		p := filepath.FromSlash("C:/Windows/system32/wuauclt.exe")
+		cmd = exec.Command(p, "/detectnow")
 	}
 
 	out, err := cmd.CombinedOutput()
@@ -56,7 +58,8 @@ func downloadUpdates() error {
 func installUpdatesAndReboot() error {
 	cmd := exec.Command("/usr/sbin/softwareupdate", "-dia", "--restart")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("wuauclt /updatenow")
+		p := filepath.FromSlash("C:/Windows/system32/wuauclt.exe")
+		cmd = exec.Command(p, "/updatenow")
 	}
 
 	out, err := cmd.CombinedOutput()
@@ -67,7 +70,8 @@ func installUpdatesAndReboot() error {
 	fmt.Print(string(out))
 
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("shutdown", "/r")
+		p := filepath.FromSlash("C:/Windows/system32/shutdown.exe")
+		cmd = exec.Command(p, "/r", "t", "0")
 		out, err := cmd.CombinedOutput()
 		fmt.Print(string(out))
 		if err != nil {
