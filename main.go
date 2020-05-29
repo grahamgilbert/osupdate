@@ -45,6 +45,7 @@ func downloadUpdates() error {
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
+		fmt.Print(string(out))
 		return err
 	}
 	fmt.Print(string(out))
@@ -60,6 +61,7 @@ func installUpdatesAndReboot() error {
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
+		fmt.Print(string(out))
 		return err
 	}
 	fmt.Print(string(out))
@@ -67,6 +69,7 @@ func installUpdatesAndReboot() error {
 	if runtime.GOOS == "windows" {
 		cmd = exec.Command("shutdown", "/r")
 		out, err := cmd.CombinedOutput()
+		fmt.Print(string(out))
 		if err != nil {
 			return err
 		}
