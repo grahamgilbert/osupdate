@@ -21,9 +21,8 @@ func main() {
 		log.Fatal(err)
 	}
 
-	err = installUpdatesAndReboot()
+	err = installUpdates()
 	if err != nil {
-
 		log.Fatal(err)
 	}
 
@@ -55,11 +54,11 @@ func downloadUpdates() error {
 	return nil
 }
 
-func installUpdatesAndReboot() error {
+func installUpdates() error {
 	cmd := exec.Command("/usr/sbin/softwareupdate", "-dia", "--restart")
 	if runtime.GOOS == "windows" {
 		p := filepath.FromSlash("C:/Windows/system32/wuauclt.exe")
-		cmd = exec.Command(p, "/updatenow")
+		cmd = exec.Command(p, "/detectnow", "/updatenow")
 	}
 
 	out, err := cmd.CombinedOutput()
