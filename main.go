@@ -69,17 +69,5 @@ func installUpdatesAndReboot() error {
 	}
 	fmt.Print(string(out))
 
-	if runtime.GOOS == "windows" {
-		p := filepath.FromSlash("C:/Windows/system32/shutdown.exe")
-		cmd = exec.Command(p, "/r", "t", "0")
-		out, err := cmd.CombinedOutput()
-		fmt.Print(string(out))
-		if err != nil {
-			return err
-		}
-
-		fmt.Print(string(out))
-	}
-
 	return nil
 }
